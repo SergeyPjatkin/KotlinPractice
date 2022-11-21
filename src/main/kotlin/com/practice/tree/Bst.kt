@@ -26,6 +26,11 @@ class Bst {
             rootNode = Node(value)
     }
 
+    fun delete(value: Int) {
+        if (::rootNode.isInitialized)
+            delete(rootNode, rootNode, value)
+    }
+
     fun preorder(): Array<Int> =
         preorderTraversal(rootNode, mutableListOf()).toTypedArray()
 
@@ -76,6 +81,45 @@ class Bst {
             else -> return node
         }
         return node
+    }
+
+    private fun delete(before: Node, current: Node?, value: Int) {
+        current?.let {
+            when {
+
+                current.value == value && before.value == current.value -> {
+                    var built = false
+                    before.left?.let { node ->
+                        build(preorderTraversal(node, mutableListOf()).toTypedArray())
+                        built = true
+                    }
+                    before.right?.let { node ->
+                        if (built) preorderTraversal(node, mutableListOf()).forEach { add(it) }
+                        else build(preorderTraversal(node, mutableListOf()).toTypedArray())
+                    }
+                }
+
+                value == current.value -> {
+
+                    fun MutableList<Int>.deleteFirst(): MutableList<Int> {
+                        removeFirst()
+                        return this
+                    }
+
+                    // Delete current node from before node.
+                    if (value < before.value) before.left = null else before.right = null
+
+                    // Add current node except first item.
+                    preorderTraversal(current, mutableListOf()).deleteFirst().forEach {
+                        add(it)
+                    }
+                }
+
+                value < current.value -> delete(current, current.left, value)
+
+                else -> delete(current, current.right, value)
+            }
+        }
     }
 
     private fun contains(node: Node?, value: Int): Boolean {
