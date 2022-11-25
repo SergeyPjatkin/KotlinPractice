@@ -1,6 +1,6 @@
 package com.practice.coins
 
-private val DEBUG = false
+private const val DEBUG = false
 
 fun change(
     coins: ArrayList<Int>,
