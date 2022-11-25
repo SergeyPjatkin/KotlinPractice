@@ -1,5 +1,7 @@
 package com.practice.sorting
 
+// https://www.geeksforgeeks.org/sorting-algorithms/#Basic
+// https://www.geeksforgeeks.org/quick-sort/
 
 class QuickSort {
 
