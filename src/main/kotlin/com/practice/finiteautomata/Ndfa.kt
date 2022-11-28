@@ -2,14 +2,14 @@ package com.practice.finiteautomata
 
 
 /**
- *  non-determinate finite automate
+ *  non-deterministic finite automate
  *       go=A         B      F=C
  *   +------------+------+-------+
  * 0 | A->A, A->B | B->B |  C->C |
  * 1 | A->A       | B->C |  C->C |
  *   +------------+------+-------+
  */
-class Nfa {
+class Ndfa {
 
     enum class State { A, B, C }
 
