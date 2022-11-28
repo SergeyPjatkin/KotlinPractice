@@ -9,7 +9,7 @@ class NdfaTest {
     @Test
     fun acceptedInputs() {
         assertEquals(Triple(true, 2, 4), Ndfa().start("00110"))
-        assertEquals(Triple(true, 5,6), Ndfa().start("001100101"))
+        assertEquals(Triple(true, 5, 6), Ndfa().start("001100101"))
         assertEquals(Triple(true, 5, 6), Ndfa().start("111001100101"))
     }
 

@@ -14,8 +14,11 @@ class Ndfa {
     enum class State { A, B, C }
 
     fun start(input: String): Triple<Boolean, Int, Int> =
+        // Start from single state A.
         mutableListOf(State.A).let { states ->
+            // Process each character form input.
             input.forEach { process(it, states) }
+            // Result - (accepted(true|false), number of accepted states, total states).
             states.filter { it == State.C }.let { finiteSates ->
                 Triple(finiteSates.isNotEmpty(), finiteSates.size, states.size)
             }
