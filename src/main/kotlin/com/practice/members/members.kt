@@ -2,10 +2,13 @@ package com.practice.members
 
 import java.util.Stack
 
-fun searchPathsDFS(a: String, b: String, graph: Map<String, ArrayList<String>>): ArrayList<ArrayList<String>> {
-    return searchRecursion(a, b, graph, arrayListOf(a), arrayListOf(), arrayListOf(a))
-}
+// Depth First Search (DFS)
+/* Return all path's from [a] to [b] in graph */
+fun searchPathsDFS(a: String, b: String, graph: Map<String, ArrayList<String>>): ArrayList<ArrayList<String>> =
+    searchRecursion(a, b, graph, arrayListOf(a), arrayListOf(a), arrayListOf())
 
+// Breadth-first search (BFS)
+/* Return all path's from [a] to [b] in graph */
 fun searchPathsBFS(a: String, b: String, graph: Map<String, ArrayList<String>>): ArrayList<ArrayList<String>> {
     val path: ArrayList<String> = arrayListOf()
     val paths: ArrayList<ArrayList<String>> = arrayListOf()
@@ -21,7 +24,7 @@ fun searchPathsBFS(a: String, b: String, graph: Map<String, ArrayList<String>>):
         val last = localPath.last()
 
         graph[last]?.forEach {
-            if( !localPath.contains(it)) {
+            if (!localPath.contains(it)) {
                 val newPath = (localPath.clone() as ArrayList<String>).apply { add(it) }
                 if (it == b) {
                     paths.add(newPath)
@@ -39,8 +42,8 @@ private fun searchRecursion(
     b: String,
     graph: Map<String, ArrayList<String>>,
     path: ArrayList<String>,
-    paths: ArrayList<ArrayList<String>>,
     visited: ArrayList<String>,
+    paths: ArrayList<ArrayList<String>>,
 ): ArrayList<ArrayList<String>> {
 
     if (a == b) {
@@ -49,10 +52,10 @@ private fun searchRecursion(
     }
 
     graph[a]?.forEach {
-        if(!visited.contains(it)) {
+        if (!visited.contains(it)) {
             path.add(it)
             visited.add(it)
-            searchRecursion(it, b, graph, path, paths, visited)
+            searchRecursion(it, b, graph, path, visited, paths)
             path.remove(it)
             visited.remove(it)
         }
