@@ -1,6 +1,10 @@
 package com.practice.tree
 
+import java.util.LinkedList
+import java.util.Queue
+
 // https://favtutor.com/blogs/binary-search-tree-java
+// https://www.geeksforgeeks.org/level-order-tree-traversal/
 
 /** Binary search tree */
 class Bst {
@@ -40,6 +44,10 @@ class Bst {
     fun inorder(): Array<Int> =
         inorderTraversal(rootNode, mutableListOf()).toTypedArray()
 
+    // Breadth-first search (BFS)
+    fun levelOrder(): Array<Int> =
+        levelOrderTraversal(rootNode, mutableListOf()).toTypedArray()
+
     private fun preorderTraversal(node: Node?, res: MutableList<Int>): MutableList<Int> {
         node?.let {
             res.add(node.value)
@@ -63,6 +71,20 @@ class Bst {
             inorderTraversal(node.left, res)
             res.add(node.value)
             inorderTraversal(node.right, res)
+        }
+        return res
+    }
+
+    private fun levelOrderTraversal(node: Node?, res: MutableList<Int>): List<Int> {
+        node?.let {
+            val queue: Queue<Node> = LinkedList<Node>().apply { add(node) }
+            while (queue.isNotEmpty()) {
+                queue.poll().let { n ->
+                    res.add(n.value)
+                    n.left?.let { queue.add(it) }
+                    n.right?.let { queue.add(it) }
+                }
+            }
         }
         return res
     }

@@ -24,6 +24,14 @@ internal class BstTest {
                 build(input)
                 assertArrayEquals(arrayOf(5, 10, 7), preorder())
             }
+            arrayOf(5, 10, 7, 6, 4, 11).let { input ->
+                build(input as Array<Int?>)
+                assertArrayEquals(arrayOf(5, 4, 10, 7, 6, 11), preorder())
+            }
+            arrayOf(5, 10, 7, 6, 11, 4, 9, 8).let { input ->
+                build(input as Array<Int?>)
+                assertArrayEquals(arrayOf(5, 4, 10, 7, 6, 9, 8, 11), preorder())
+            }
         }
     }
 
@@ -34,6 +42,10 @@ internal class BstTest {
                 build(input as Array<Int?>)
                 assertArrayEquals(arrayOf(6, 7, 10, 5), postorder())
             }
+            arrayOf(5, 10, 7, 6, 4, 11, 9, 8).let { input ->
+                build(input as Array<Int?>)
+                assertArrayEquals(arrayOf(4, 6, 8, 9, 7, 11, 10, 5), postorder())
+            }
         }
     }
 
@@ -43,6 +55,24 @@ internal class BstTest {
             arrayOf(5, 10, 7, 6).let { input ->
                 build(input as Array<Int?>)
                 assertArrayEquals(arrayOf(5, 6, 7, 10), inorder())
+            }
+            arrayOf(5, 10, 7, 6, 4, 11, 9, 8).let { input ->
+                build(input as Array<Int?>)
+                assertArrayEquals(arrayOf(4, 5, 6, 7, 8, 9, 10, 11), inorder())
+            }
+        }
+    }
+
+    @Test
+    fun levelOrderTraversal() {
+        Bst().run {
+            arrayOf(5, 10, 7, 6).let { input ->
+                build(input as Array<Int?>)
+                assertArrayEquals(arrayOf(5, 10, 7, 6), levelOrder())
+            }
+            arrayOf(5, 10, 7, 6, 4, 11, 9, 8).let { input ->
+                build(input as Array<Int?>)
+                assertArrayEquals(arrayOf(5, 4, 10, 7, 11, 6, 9, 8), levelOrder())
             }
         }
     }
