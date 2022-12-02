@@ -4,11 +4,20 @@ import java.util.*
 
 // https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
 
+const val DEBUG = false
+
 // Vertex with weight.
-data class VertexWithWeight(val v: Int, val w: Int)
+data class VertexWithWeight(val v: Int, val w: Int) {
+    override fun toString() = "(v:$v w:$w)"
+}
 
 // Vertex with minimum distance.
-data class VertexWithMinDistance(val v: Int, val md: Int)
+data class VertexWithMinDistance(val v: Int, val md: Int) {
+    override fun toString() = "(v:$v d:$md)"
+}
+
+typealias VW = VertexWithWeight
+typealias VD = VertexWithMinDistance
 
 // A class for Dijkstra's single source the shortest path algorithm.
 class Dijkstra {
@@ -37,17 +46,27 @@ class Dijkstra {
         // Create a vector for distances and initialize all distances as infinite.
         val dist = Array(graph.size) { Int.MAX_VALUE }.apply { this[src] = 0 }
 
+        if (DEBUG) println("Dijkstra:dist: ${dist.toPrintString()}")
+        if (DEBUG) println("Dijkstra:pq: $pq")
         while (pq.isNotEmpty()) {
+
+            if (DEBUG) println("Dijkstra:  pq: $pq")
+
             // The first vertex in queue is the minimum distance vertex, extract it.
             val u = pq.remove().v
 
-            graph.adj[u].forEach {
+            if (DEBUG) println("Dijkstra:  for each u=$u, dst[$u]=${dist[u].toPrintString()}")
+            graph.adj[u].forEach { v ->
                 // Updating distance of it.v
-                if (dist[it.v] > dist[u] + it.w) {
-                    dist[it.v] = dist[u] + it.w;
-                    pq.add(VertexWithMinDistance(it.v, dist[it.v]));
+                if (DEBUG) print("Dijkstra:    for v=$v, dst[${v.v}]=${dist[v.v].toPrintString()}")
+                if (dist[v.v] > dist[u] + v.w) {
+                    dist[v.v] = dist[u] + v.w;
+                    if (DEBUG) print(", pq.add(${VD(v.v, dist[v.v])}), dst[${v.v}]=${dist[v.v].toPrintString()}")
+                    pq.add(VertexWithMinDistance(v.v, dist[v.v]));
                 }
+                if (DEBUG) println()
             }
+            if (DEBUG) println("Dijkstra:  dist: ${dist.toPrintString()}")
         }
 
         return dist
@@ -94,5 +113,9 @@ class Dijkstra {
         }
         return minIndex
     }
+
+    private fun Array<Int>.toPrintString() = joinToString(separator = " ") { it.toPrintString() }
+
+    private fun Int.toPrintString() = if (this == Int.MAX_VALUE) "-1" else "$this"
 
 }

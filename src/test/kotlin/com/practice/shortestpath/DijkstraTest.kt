@@ -23,12 +23,12 @@ class DijkstraTest {
             assertArrayEquals(arrayOf(0, 4, 12, 19, 21, 11, 9, 8, 14), shortestPath(graph, 0))
 
             shortestPath(graph, 3).let {
-                printArray(it)
+                println(it.toPrintString())
                 assertArrayEquals(arrayOf(19, 15, 7, 0, 9, 11, 13, 14, 9), it)
             }
 
             shortestPath(graph, 8).let {
-                printArray(it)
+                println(it.toPrintString())
                 assertArrayEquals(arrayOf(14, 10, 2, 9, 16, 6, 6, 7, 0), it)
             }
         }
@@ -56,22 +56,17 @@ class DijkstraTest {
             assertArrayEquals(arrayOf(0, 4, 12, 19, 21, 11, 9, 8, 14), shortestPath(graph, 0))
 
             shortestPath(graph, 3).let {
-                printArray(it)
+                println(it.toPrintString())
                 assertArrayEquals(arrayOf(19, 15, 7, 0, 9, 11, 13, 14, 9), it)
             }
 
             shortestPath(graph, 8).let {
-                printArray(it)
+                println(it.toPrintString())
                 assertArrayEquals(arrayOf(14, 10, 2, 9, 16, 6, 6, 7, 0), it)
             }
         }
     }
 
-    private fun printArray(a: Array<Int>) {
-        a.forEach {
-            print("$it, ")
-        }
-        println()
-    }
+    private fun Array<Int>.toPrintString() = joinToString(separator = " ") { "$it" }
 }
 
