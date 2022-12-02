@@ -1,11 +1,57 @@
 package com.practice.shortestpath
 
+import java.util.*
+
 // https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
 
-// A class for Dijkstra's single source the shortest path algorithm.
-// The clas is for adjacency matrix representation of the graph.
+// Vertex with weight.
+data class VertexWithWeight(val v: Int, val w: Int)
 
+// Vertex with minimum distance.
+data class VertexWithMinDistance(val v: Int, val md: Int)
+
+// A class for Dijkstra's single source the shortest path algorithm.
 class Dijkstra {
+
+    // This class represents a directed graph using adjacency list representation.
+    class Graph(verticesNbr: Int) {
+
+        val adj: Array<MutableList<VertexWithWeight>> = Array(verticesNbr) { mutableListOf() }
+        val size: Int
+            get() = adj.size
+
+        /** Add link from [u] to [v] with weight [w] */
+        fun addEdge(u: Int, v: Int, w: Int) {
+            adj[u].add(VertexWithWeight(v, w))
+            adj[v].add(VertexWithWeight(u, w))
+        }
+    }
+
+    fun shortestPath(graph: Graph, src: Int): Array<Int> {
+        val compareByDistance: Comparator<VertexWithMinDistance> = compareBy { it.md }
+        val pq: PriorityQueue<VertexWithMinDistance> = PriorityQueue(compareByDistance).apply {
+            // Insert source itself in priority queue and initialize its distance as 0.
+            add(VertexWithMinDistance(src, 0))
+        }
+
+        // Create a vector for distances and initialize all distances as infinite.
+        val dist = Array(graph.size) { Int.MAX_VALUE }.apply { this[src] = 0 }
+
+        while (pq.isNotEmpty()) {
+            // The first vertex in queue is the minimum distance vertex, extract it.
+            val u = pq.remove().v
+
+            graph.adj[u].forEach {
+                // Updating distance of it.v
+                if (dist[it.v] > dist[u] + it.w) {
+                    dist[it.v] = dist[u] + it.w;
+                    pq.add(VertexWithMinDistance(it.v, dist[it.v]));
+                }
+            }
+        }
+
+        return dist
+    }
 
     // Function that implements Dijkstra's single source the shortest path algorithm for a graph represented using
     // adjacency matrix representation
