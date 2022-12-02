@@ -115,7 +115,5 @@ class Dijkstra {
     }
 
     private fun Array<Int>.toPrintString() = joinToString(separator = " ") { it.toPrintString() }
-
     private fun Int.toPrintString() = if (this == Int.MAX_VALUE) "-1" else "$this"
-
 }
