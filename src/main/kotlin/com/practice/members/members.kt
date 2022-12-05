@@ -2,13 +2,13 @@ package com.practice.members
 
 import java.util.Stack
 
-// Depth First Search (DFS)
-/* Return all path's from [a] to [b] in graph */
+/** Depth First Search (DFS)
+ * Return all path's from [a] to [b] in graph */
 fun searchPathsDFS(a: String, b: String, graph: Map<String, ArrayList<String>>): ArrayList<ArrayList<String>> =
     searchRecursion(a, b, graph, arrayListOf(a), arrayListOf(a), arrayListOf())
 
-// Breadth-first search (BFS)
-/* Return all path's from [a] to [b] in graph */
+/** Breadth-first search (BFS)
+ * Return all path's from [a] to [b] in graph */
 fun searchPathsBFS(a: String, b: String, graph: Map<String, ArrayList<String>>): ArrayList<ArrayList<String>> {
     val path: ArrayList<String> = arrayListOf()
     val paths: ArrayList<ArrayList<String>> = arrayListOf()
@@ -37,6 +37,16 @@ fun searchPathsBFS(a: String, b: String, graph: Map<String, ArrayList<String>>):
     return paths
 }
 
+/**
+ * Depth First Search (DFS) traversal through the graph.
+ *
+ * @param a From node.
+ * @param b To node.
+ * @param graph Graph of the name's relations.
+ * @param path The current path to the [b].
+ * @param visited The current visited nodes.
+ * @param paths The current result. All paths to from [a] to [b]
+ */
 private fun searchRecursion(
     a: String,
     b: String,
