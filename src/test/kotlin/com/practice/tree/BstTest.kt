@@ -119,4 +119,20 @@ internal class BstTest {
         }
     }
 
+    @Test
+    fun balanceTest() {
+        Bst().run {
+            arrayOf(5, 3, 7, 2, 4, 6, 9).let { input ->
+                build(input as Array<Int?>)
+                assertArrayEquals(arrayOf(5, 3, 7, 2, 4, 6, 9), levelOrder())
+                assertTrue(isBalanced())
+            }
+
+            arrayOf(5, 4, 6, 2, 3, 7, 9).let { input ->
+                build(input as Array<Int?>)
+                assertArrayEquals(arrayOf(5, 4, 6, 2, 7, 3, 9), levelOrder())
+                assertFalse(isBalanced())
+            }
+        }
+    }
 }

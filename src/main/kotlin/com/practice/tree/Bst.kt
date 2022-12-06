@@ -5,6 +5,8 @@ import java.util.Queue
 
 // https://favtutor.com/blogs/binary-search-tree-java
 // https://www.geeksforgeeks.org/level-order-tree-traversal/
+// https://www.digitalocean.com/community/tutorials/balanced-binary-tree-check
+// https://www.programiz.com/dsa/balanced-binary-tree
 
 /** Binary search tree */
 class Bst {
@@ -35,6 +37,11 @@ class Bst {
             delete(rootNode, rootNode, value)
     }
 
+    // https://www.digitalocean.com/community/tutorials/balanced-binary-tree-check
+    // https://www.programiz.com/dsa/balanced-binary-tree
+    fun isBalanced(): Boolean = balanceHeight(rootNode) != -1
+
+    // Depth First Search (DFS).
     fun preorder(): Array<Int> =
         preorderTraversal(rootNode, mutableListOf()).toTypedArray()
 
@@ -44,9 +51,9 @@ class Bst {
     fun inorder(): Array<Int> =
         inorderTraversal(rootNode, mutableListOf()).toTypedArray()
 
-    // Breadth-first search (BFS)
+    // Breadth-first search (BFS).
     fun levelOrder(): Array<Int> =
-        levelOrderTraversal(rootNode, mutableListOf()).toTypedArray()
+        levelOrderTraversal(rootNode).toTypedArray()
 
     private fun preorderTraversal(node: Node?, res: MutableList<Int>): MutableList<Int> {
         node?.let {
@@ -75,7 +82,8 @@ class Bst {
         return res
     }
 
-    private fun levelOrderTraversal(node: Node?, res: MutableList<Int>): List<Int> {
+    private fun levelOrderTraversal(node: Node?): List<Int> {
+        val res = mutableListOf<Int>()
         node?.let {
             val queue: Queue<Node> = LinkedList<Node>().apply { add(node) }
             while (queue.isNotEmpty()) {
@@ -100,7 +108,7 @@ class Bst {
         when {
             value < node.value -> node.left = addRecursive(node.left, value)
             value > node.value -> node.right = addRecursive(node.right, value)
-            else -> return node
+            else -> {}
         }
         return node
     }
@@ -143,6 +151,32 @@ class Bst {
             }
         }
     }
+
+    /**
+     * If returns anything other than -1 then it is a balanced binary tree.
+     * If it returns -1 then it is not a balanced binary tree.
+     */
+    private fun balanceHeight(node: Node?): Int {
+        if( node == null) {
+            return 0
+        }
+        // Checking left subtree.
+        val leftSubtreeHeight = balanceHeight(node.left)
+        if( leftSubtreeHeight == -1 ) return -1
+
+        // Checking right subtree.
+        val rightSubtreeHeight = balanceHeight(node.right)
+        if( rightSubtreeHeight == -1 ) return -1
+
+        // Checking the difference of left and right subtree for current node.
+        if (Math.abs(leftSubtreeHeight - rightSubtreeHeight) > 1) {
+            return -1;
+        }
+
+        //if it is balanced then return the height.
+        return (Math.max(leftSubtreeHeight, rightSubtreeHeight) + 1)
+    }
+
 
     private fun contains(node: Node?, value: Int): Boolean {
         if (node == null)
