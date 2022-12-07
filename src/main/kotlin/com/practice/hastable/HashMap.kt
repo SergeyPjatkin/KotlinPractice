@@ -59,9 +59,7 @@ class HashMap<K, V> {
             if (it < 0) -1 * it else it
         }
 
-    private fun K.hasCode() = this.hashCode()
-
-    private fun HashNode<K, V>.getNode(key:K): HashNode<K, V>? {
+    private fun HashNode<K, V>.getNode(key: K): HashNode<K, V>? {
         var node: HashNode<K, V>? = this
         while (node != null) {
             if (node.key == key)
